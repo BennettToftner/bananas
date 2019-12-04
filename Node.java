@@ -1,47 +1,48 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class Node<T> {
+public class Node {
 	
-	private T data;
+	private int[] data;
 	
-	private ArrayList<Node<T>> children;
+	private ArrayList<Node> children;
 	
-	private Node<T> parent;
+	private Node parent;
 	
-	public Node(T data)
+	public Node(int[] data)
 	{
 		this.data = data;
-		children = new ArrayList<Node<T>>();
+		children = new ArrayList<Node>();
 		parent = null;
 	}
 	
-	public T getData()
+	public int[] getData()
 	{
 		return data;
 	}
 	
-	public boolean sameData(T otherData)
+	public boolean sameData(int[] otherData)
 	{
-		return data.equals(otherData);
+		return Arrays.equals(this.getData(), otherData);
 	}
 	
-	public void setData(T newData)
+	public void setData(int[] newData)
 	{
 		data = newData;
 	}
 	
-	public void addChild(Node<T> child)
+	public void addChild(Node child)
 	{
 		child.setParent(this);
 		children.add(child);
 	}
 	
-	public void setParent(Node<T> mom)
+	public void setParent(Node mom)
 	{
 		parent = mom;
 	}
 	
-	public boolean hasAncestor(Node<T> ancestor)
+	public boolean hasAncestor(Node ancestor)
 	{
 		if (parent != null && parent.sameData(ancestor.getData()))
 		{
@@ -55,6 +56,15 @@ public class Node<T> {
 		{
 			return false;
 		}
+	}
+	
+	public String printBloodline()
+	{
+		if (parent == null)
+		{
+			return data[0] + " " + data[1] + "\n";
+		}
+		return parent.printBloodline() + data[0] + " " + data[1] + "\n";
 	}
 	
 	public String toString()
