@@ -70,6 +70,7 @@ public class Bananas {
 			}
 		}
 		System.out.println(numBananas);
+		k.close();
 	}
 	
 	public static int[][] findChar(char[][] board, int row, int col, char lookFor)
