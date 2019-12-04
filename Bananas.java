@@ -24,33 +24,52 @@ public class Bananas {
 			{
 				if (board[i][j] == 'B')
 				{
-					Node<int[]> bLocation = new Node<int[]>(new int[] {i, j});
+					Node bLocation = new Node(new int[] {i, j});
 					int[][] aLocations1 = findChar(board, i, j, 'A');
 					for (int[] aCoords1: aLocations1)
 					{
-						Node<int[]> aLocation = new Node<int[]>(aCoords1);
-						bLocation.addChild(aLocation);
+						Node aLocation1 = new Node(aCoords1);
+						bLocation.addChild(aLocation1);
 						int[][] nLocations1 = findChar(board, aCoords1[0], aCoords1[1], 'N');
 						for (int[] nCoords1: nLocations1)
 						{
-							
+							Node nLocation1 = new Node(nCoords1);
+							aLocation1.addChild(nLocation1);
+							int[][] aLocations2 = findChar(board, nCoords1[0], nCoords1[1], 'A');
+							for (int[] aCoords2: aLocations2)
+							{
+								Node aLocation2 = new Node(aCoords2);
+								if (!nLocation1.hasAncestor(aLocation2))
+								{
+									nLocation1.addChild(aLocation2);
+									int[][] nLocations2 = findChar(board, aCoords2[0], aCoords2[1], 'N');
+									for (int[] nCoords2: nLocations2)
+									{
+										Node nLocation2 = new Node(nCoords2);
+										if (!aLocation2.hasAncestor(nLocation2))
+										{
+											aLocation2.addChild(nLocation2);
+											int[][] aLocations3 = findChar(board, nCoords2[0], nCoords2[1], 'A');
+											for (int[] aCoords3: aLocations3)
+											{
+												Node aLocation3 = new Node(aCoords3);
+												if (!nLocation2.hasAncestor(aLocation3))
+												{
+													nLocation2.addChild(aLocation3);
+													numBananas++;
+													//System.out.println(aLocation3.printBloodline());
+												}
+											}
+										}
+									}
+								}
+							}
 						}
 					}
-					
-					System.out.println(bLocation);
 				}
 			}
 		}
-		
-		
-		/*for (int i = 0; i < size ; i++)
-		{
-			for (int j = 0; j < size; j++)
-			{
-				System.out.print(board[i][j]);
-			}
-			System.out.println();
-		}*/
+		System.out.println(numBananas);
 	}
 	
 	public static int[][] findChar(char[][] board, int row, int col, char lookFor)
